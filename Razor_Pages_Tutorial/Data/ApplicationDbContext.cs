@@ -12,5 +12,8 @@ namespace Razor_Pages_Tutorial.Data
             : base(options)
         {
         }
+
+
+        public DbSet<Customer> Customers { get; set; }
     }
 }
