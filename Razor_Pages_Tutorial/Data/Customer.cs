@@ -10,8 +10,11 @@ namespace Razor_Pages_Tutorial.Data
     {
         public int Id { get; set; }
 
-        [Required, StringLength(100)]
+        [Required(ErrorMessage = "A Name is Required"), StringLength(100)]
         public string Name { get; set; }
+
+
+        
 
     }
 }
