@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Razor_Pages_Tutorial.Data;
 
-namespace Razor_Pages_Tutorial.Pages
+namespace Razor_Pages_Tutorial.Pages.Customers
 {
     public class AddCustomerModel : PageModel
     {
