@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Razor_Pages_Tutorial.Data
@@ -15,5 +12,8 @@ namespace Razor_Pages_Tutorial.Data
 
 
         public DbSet<Customer> Customers { get; set; }
+
+
+        public DbSet<Bug> Bug { get; set; }
     }
 }

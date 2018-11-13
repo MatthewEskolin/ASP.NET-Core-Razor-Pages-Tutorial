@@ -1,0 +1,48 @@
+﻿@page
+@model Razor_Pages_Tutorial.Pages.BugTracker.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Bug[0].CreateDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bug[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bug[0].Severity)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Bug) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Severity)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.BugID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.BugID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.BugID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

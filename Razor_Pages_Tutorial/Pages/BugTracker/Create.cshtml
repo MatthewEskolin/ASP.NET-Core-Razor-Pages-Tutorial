@@ -1,0 +1,44 @@
+﻿@page
+@model Razor_Pages_Tutorial.Pages.BugTracker.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Bug</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Bug.CreateDate" class="control-label"></label>
+                <input asp-for="Bug.CreateDate" class="form-control" />
+                <span asp-validation-for="Bug.CreateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Bug.Title" class="control-label"></label>
+                <input asp-for="Bug.Title" class="form-control" />
+                <span asp-validation-for="Bug.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Bug.Severity" class="control-label"></label>
+                <select asp-for="Bug.Severity" class="form-control"></select>
+                <span asp-validation-for="Bug.Severity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
