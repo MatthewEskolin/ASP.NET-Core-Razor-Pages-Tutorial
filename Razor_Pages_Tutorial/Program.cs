@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Razor_Pages_Tutorial.Data;
+using Razor_Pages_Tutorial.Data.Initialization;
 
 namespace Razor_Pages_Tutorial
 {
@@ -40,6 +41,14 @@ namespace Razor_Pages_Tutorial
             //    }
             //}
             #endregion
+
+
+            var scope = host.Services.CreateScope();
+            var services = scope.ServiceProvider;
+            var context = services.GetRequiredService<ApplicationDbContext>();
+            DbInitializer.Initialize(context);
+
+
 
             host.Run();
         }

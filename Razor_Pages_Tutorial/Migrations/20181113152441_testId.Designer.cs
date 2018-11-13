@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Razor_Pages_Tutorial.Data;
 
-namespace Razor_Pages_Tutorial.Data.Migrations
+namespace Razor_Pages_Tutorial.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181108192550_addCustomerTable")]
-    partial class addCustomerTable
+    [Migration("20181113152441_testId")]
+    partial class testId
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -186,17 +186,59 @@ namespace Razor_Pages_Tutorial.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Razor_Pages_Tutorial.Data.Bug", b =>
+                {
+                    b.Property<int>("BugID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<int>("Severity");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("BugID");
+
+                    b.ToTable("Bug");
+                });
+
+            modelBuilder.Entity("Razor_Pages_Tutorial.Data.Comment", b =>
+                {
+                    b.Property<int>("CommentID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BugID");
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<int>("TestId");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("CommentID");
+
+                    b.HasIndex("BugID");
+
+                    b.ToTable("Comment");
+                });
+
             modelBuilder.Entity("Razor_Pages_Tutorial.Data.Customer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("BugID");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BugID");
 
                     b.ToTable("Customers");
                 });
@@ -244,6 +286,21 @@ namespace Razor_Pages_Tutorial.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Razor_Pages_Tutorial.Data.Comment", b =>
+                {
+                    b.HasOne("Razor_Pages_Tutorial.Data.Bug", "Bug")
+                        .WithMany("Comments")
+                        .HasForeignKey("BugID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Razor_Pages_Tutorial.Data.Customer", b =>
+                {
+                    b.HasOne("Razor_Pages_Tutorial.Data.Bug")
+                        .WithMany("Contacts")
+                        .HasForeignKey("BugID");
                 });
 #pragma warning restore 612, 618
         }

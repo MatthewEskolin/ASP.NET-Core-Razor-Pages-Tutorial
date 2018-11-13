@@ -9,6 +9,7 @@ namespace Razor_Pages_Tutorial.Data
         public DateTime CreateDate { get; set; }
         public int UserId { get; set; }
 
+        public int TestId { get; set; }
         public Bug Bug { get; set; }
 
     }
