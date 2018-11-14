@@ -7,12 +7,16 @@ namespace Razor_Pages_Tutorial.Data.Initialization
 {
     public class DbInitializer
     {
+
         public static void Initialize(ApplicationDbContext context)
         {
+  
 
             if (context.Bug.Any())
             {
+                EveryBugGetsAComment(context);
                 return;
+
             }
 
 
@@ -39,15 +43,27 @@ namespace Razor_Pages_Tutorial.Data.Initialization
 
             context.SaveChanges();
 
+            EveryBugGetsAComment(context);
+
+
+        }
+
+        private static void EveryBugGetsAComment(ApplicationDbContext ctx)
+        {
+            //get bugs without comments
+            var bugs = ctx.Bug.Where(x => !ctx.Comments.Any(y => y.BugID == x.BugID)).ToList();
 
             foreach (var bug in bugs)
             {
-                var bugComment = new Comment() {BugID = bug.BugID};
+                var bugComment = new Comment()
+                {
+                    BugID = bug.BugID, CreateDate = DateTime.Now,
+                    CommentText = $"This is a test comment for bug {bug.BugID}"
+                };
 
+                ctx.Comments.Add(bugComment);
+                ctx.SaveChanges();
             }
-
-
-
         }
     }
 }

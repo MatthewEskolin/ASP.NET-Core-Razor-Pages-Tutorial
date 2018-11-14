@@ -10,7 +10,7 @@ namespace Razor_Pages_Tutorial.Data
         {
         }
 
-
+        public DbSet<Comment> Comments { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Bug> Bug { get; set; }
     }

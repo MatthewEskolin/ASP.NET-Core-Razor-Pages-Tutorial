@@ -26,7 +26,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Bug.Severity" class="control-label"></label>
-                <select asp-for="Bug.Severity" class="form-control"></select>
+                <select asp-for="Bug.Severity" asp-items="Html.GetEnumSelectList<BugSeverity>()" class="form-control"></select>
                 <span asp-validation-for="Bug.Severity" class="text-danger"></span>
             </div>
             <div class="form-group">

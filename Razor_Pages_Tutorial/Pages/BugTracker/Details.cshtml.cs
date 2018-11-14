@@ -27,7 +27,7 @@ namespace Razor_Pages_Tutorial.Pages.BugTracker
                 return NotFound();
             }
 
-            Bug = await _context.Bug.FirstOrDefaultAsync(m => m.BugID == id);
+            Bug = await _context.Bug.Include(x => x.Comments).AsNoTracking().FirstOrDefaultAsync(m => m.BugID == id);
 
             if (Bug == null)
             {
