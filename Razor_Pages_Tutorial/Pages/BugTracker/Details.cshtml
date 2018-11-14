@@ -29,6 +29,30 @@
         <dd>
             @Html.DisplayFor(model => model.Bug.Severity)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Bug.Comments)
+        </dt>        
+        <dd>
+            <table class="table">
+                <tr>
+                    <th>Comment</th>
+                    <th>Date</th>
+                </tr>
+                @foreach (var comment in Model.Bug.Comments)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(x => comment.CommentText)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => comment.CreateDate)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+        
+
     </dl>
 </div>
 <div>
