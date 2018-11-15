@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Razor_Pages_Tutorial.Data;
+using Razor_Pages_Tutorial.Util;
 
 namespace Razor_Pages_Tutorial.Pages.BugTracker
 {
@@ -29,11 +30,69 @@ namespace Razor_Pages_Tutorial.Pages.BugTracker
             _context = context;
         }
 
-        public IList<Bug> Bug { get;set; }
+        public PaginatedList<Bug> Bug { get;set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string sortOrder,string currentFilter, string searchString, int? pageIndex)
         {
-            Bug = await _context.Bug.ToListAsync();
+            CurrentSort = sortOrder;
+
+            DateSort = sortOrder == "Date" ? "date_desc" : "Date";
+            TitleSort = sortOrder == "Title" ? "title_desc" : "Title";
+            SeveritySort = sortOrder == "Severity" ? "severity_desc" : "Severity";
+
+            if (searchString != null)
+            {
+                pageIndex = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+
+            CurrentFilter = searchString;
+
+
+            var bugs =  _context.Bug.AsQueryable();
+
+            //filtering
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                bugs = bugs.Where(x => x.Title.Contains(searchString));
+
+            }
+
+
+            //sorting
+            switch (sortOrder)
+            {
+                case "date_desc":
+                    bugs = bugs.OrderByDescending(x => x.CreateDate);
+                    break;
+                case "Date":
+                    bugs = bugs.OrderBy(x => x.CreateDate);
+                    break;
+                case "title_desc":
+                    bugs = bugs.OrderByDescending(x => x.Title);
+                    break;
+                case "Title":
+                    bugs = bugs.OrderBy(x => x.Title);
+                    break;
+                case "severity_desc":
+                    bugs = bugs.OrderByDescending(x => x.Severity);
+                    break;
+                case "Severity":
+                    bugs = bugs.OrderBy(x => x.Severity);
+                    break;
+                default:
+                    bugs = bugs.OrderBy(x => x.CreateDate);
+                    break;
+            }
+
+
+            int pageSize = 3;
+            Bug = await PaginatedList<Bug>.CreateAsync(bugs.AsNoTracking(), pageIndex ?? 1, pageSize);
+
         }
     }
 }
