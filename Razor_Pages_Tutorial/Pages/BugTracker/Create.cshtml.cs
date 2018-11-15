@@ -33,6 +33,16 @@ namespace Razor_Pages_Tutorial.Pages.BugTracker
                 return Page();
             }
 
+            var emptyBug = new Bug();
+            if (await TryUpdateModelAsync<Bug>(
+                emptyBug, "bug", x => x.Title, x => x.Severity, x => x.CreateDate))
+            {
+                _context.Bug.Add(emptyBug);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+
+
             _context.Bug.Add(Bug);
             await _context.SaveChangesAsync();
 
