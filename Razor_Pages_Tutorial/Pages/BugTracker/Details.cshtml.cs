@@ -18,6 +18,9 @@ namespace Razor_Pages_Tutorial.Pages.BugTracker
             _context = context;
         }
 
+        public string ErrorMessage { get; set; }
+
+
         public Bug Bug { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)

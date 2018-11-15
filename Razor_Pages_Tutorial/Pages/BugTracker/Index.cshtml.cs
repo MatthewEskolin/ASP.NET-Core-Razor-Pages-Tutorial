@@ -11,6 +11,17 @@ namespace Razor_Pages_Tutorial.Pages.BugTracker
 {
     public class IndexModel : PageModel
     {
+
+        //Sort Functionality
+        public string DateSort { get; set; }
+        public string TitleSort { get; set; }
+        public string SeveritySort { get; set; }
+
+        public string CurrentFilter { get; set; }
+        public string CurrentSort { get; set; }
+
+
+
         private readonly Razor_Pages_Tutorial.Data.ApplicationDbContext _context;
 
         public IndexModel(Razor_Pages_Tutorial.Data.ApplicationDbContext context)

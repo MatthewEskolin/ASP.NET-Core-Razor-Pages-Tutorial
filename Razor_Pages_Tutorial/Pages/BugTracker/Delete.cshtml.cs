@@ -21,18 +21,26 @@ namespace Razor_Pages_Tutorial.Pages.BugTracker
         [BindProperty]
         public Bug Bug { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public string ErrorMessage { get; set; }
+
+        public async Task<IActionResult> OnGetAsync(int? id, bool? saveChangesError = false)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            Bug = await _context.Bug.FirstOrDefaultAsync(m => m.BugID == id);
+            Bug = await _context.Bug.AsNoTracking().FirstOrDefaultAsync(m => m.BugID == id);
 
             if (Bug == null)
             {
                 return NotFound();
+            }
+
+
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ErrorMessage = "Delete failed. Try again.";
             }
             return Page();
         }
@@ -44,15 +52,23 @@ namespace Razor_Pages_Tutorial.Pages.BugTracker
                 return NotFound();
             }
 
-            Bug = await _context.Bug.FindAsync(id);
+            var bug = await _context.Bug.AsNoTracking().FirstOrDefaultAsync(x => x.BugID == id);
 
-            if (Bug != null)
+            if (bug == null)
             {
-                _context.Bug.Remove(Bug);
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
 
-            return RedirectToPage("./Index");
+            try
+            {
+                _context.Bug.Remove(bug);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+            catch (DbUpdateException)
+            {
+                return RedirectToAction("./Delete", new {id, saveChangesError = true});
+            }
         }
     }
 }

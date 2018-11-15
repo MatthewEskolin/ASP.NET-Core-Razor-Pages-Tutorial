@@ -29,7 +29,7 @@ namespace Razor_Pages_Tutorial.Pages.BugTracker
                 return NotFound();
             }
 
-            Bug = await _context.Bug.FirstOrDefaultAsync(m => m.BugID == id);
+            Bug = await _context.Bug.FindAsync(id);
 
             if (Bug == null)
             {
@@ -38,32 +38,55 @@ namespace Razor_Pages_Tutorial.Pages.BugTracker
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id)
         {
+
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            _context.Attach(Bug).State = EntityState.Modified;
+            var bugtoUpdate = await _context.Bug.FindAsync(id);
 
-            try
+            if (await TryUpdateModelAsync<Bug>(
+                bugtoUpdate,
+                "bug",
+                s => s.Title, s => s.Severity, s => s.CreateDate))
             {
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BugExists(Bug.BugID))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToPage("./Index");
             }
 
-            return RedirectToPage("./Index");
+            return Page();
+
+
+            //Orginal Update Code before using FindAsync and TryUpdateModel
+            #region Method Original
+            //if (!ModelState.IsValid)
+            //{
+            //    return Page();
+            //}
+
+            //_context.Attach(Bug).State = EntityState.Modified;
+
+            //try
+            //{
+            //    await _context.SaveChangesAsync();
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
+            //    if (!BugExists(Bug.BugID))
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
+
+            //return RedirectToPage("./Index");
+            #endregion
         }
 
         private bool BugExists(int id)
