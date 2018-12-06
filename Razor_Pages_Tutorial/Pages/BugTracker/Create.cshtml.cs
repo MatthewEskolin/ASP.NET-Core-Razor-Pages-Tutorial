@@ -20,7 +20,11 @@ namespace Razor_Pages_Tutorial.Pages.BugTracker
 
         public IActionResult OnGet()
         {
+            Bug.CreateDate = DateTime.Now;
+
             return Page();
+
+
         }
 
         [BindProperty]

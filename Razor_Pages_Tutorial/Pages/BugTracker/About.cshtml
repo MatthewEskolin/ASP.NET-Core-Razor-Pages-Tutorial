@@ -1,0 +1,30 @@
+﻿@page
+@model AboutModel
+@{
+    ViewData["Title"] = "Student Body Statistics";
+}
+
+<h2>Bug Comment Statistics</h2>
+
+<table>
+    <tr>
+        <th>
+            Comment Date
+        </th>
+        <th>
+           Comments 
+        </th>
+    </tr>
+
+    @foreach (var item in Model.CommentDates)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CommentDate)
+            </td>
+            <td>
+                @item.CommentCount
+            </td>
+        </tr>
+    }
+</table>

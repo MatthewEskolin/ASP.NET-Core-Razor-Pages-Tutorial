@@ -10,6 +10,7 @@ namespace Razor_Pages_Tutorial.Data
     {
         public int BugID { get; set; }
 
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime CreateDate { get; set; }
 
         public string Title { get; set; }
