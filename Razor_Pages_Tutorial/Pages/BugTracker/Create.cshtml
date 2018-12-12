@@ -2,22 +2,17 @@
 @model Razor_Pages_Tutorial.Pages.BugTracker.CreateModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Enter new Bug Record";
 }
 
-<h2>Create</h2>
+<h2>Enter new Bug Record</h2>
 
-<h4>Bug</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Bug.CreateDate" class="control-label"></label>
-                <input asp-for="Bug.CreateDate" class="form-control" />
-                <span asp-validation-for="Bug.CreateDate" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="Bug.Title" class="control-label"></label>
                 <input asp-for="Bug.Title" class="form-control" />

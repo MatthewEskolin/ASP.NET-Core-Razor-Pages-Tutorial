@@ -90,7 +90,7 @@ namespace Razor_Pages_Tutorial.Pages.BugTracker
             }
 
 
-            int pageSize = 3;
+            int pageSize = 20;
             Bug = await PaginatedList<Bug>.CreateAsync(bugs.AsNoTracking(), pageIndex ?? 1, pageSize);
 
         }

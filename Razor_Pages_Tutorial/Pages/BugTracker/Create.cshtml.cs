@@ -20,7 +20,10 @@ namespace Razor_Pages_Tutorial.Pages.BugTracker
 
         public IActionResult OnGet()
         {
-            Bug.CreateDate = DateTime.Now;
+
+            //prepopulate page model.
+
+         //   Bug.CreateDate = DateTime.Now;
 
             return Page();
 
@@ -39,8 +42,10 @@ namespace Razor_Pages_Tutorial.Pages.BugTracker
 
             var emptyBug = new Bug();
             if (await TryUpdateModelAsync<Bug>(
-                emptyBug, "bug", x => x.Title, x => x.Severity, x => x.CreateDate))
+                emptyBug, "bug", x => x.Title, x => x.Severity))
             {
+                emptyBug.CreateDate = DateTime.Now;
+
                 _context.Bug.Add(emptyBug);
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
